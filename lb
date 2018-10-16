@@ -13,7 +13,7 @@ blogdir="$dir"/blog
 
 # Set vi if $EDITOR not set
 if [ -z $EDITOR ];
-	then EDITOR="vi";
+	then EDITOR="nano";
 fi;
 
 # See other variables defined later, such as `header` and `webdate` for more customizability.
@@ -45,7 +45,7 @@ getTitle() { \
 
 postNew() { \
 	mkdir -p "$draftdir"
-	echo -e "<h2 id='$url'>$title</h2>\n<small>[<a href=\"$blogfile#$url\">link</a>&mdash;<a href=\"blog/$url.html\">standalone</a>]</small>\n\n<++>" >> "$draftdir"/$url.html && $EDITOR "$draftdir"/$url.html
+	echo -e "<h2 id='$url'><a href=\"blog/$url.html\">$title</a></h2>" >> "$draftdir"/$url.html && $EDITOR "$draftdir"/$url.html
 	}
 
 finalize() { \
@@ -58,7 +58,7 @@ finalize() { \
 	listformat='<li>'$(date '+%Y %b %d')' &ndash; <a href="blog/'$url'.html">'$title'</a></li>'
 	tmpdir=$(mktemp -d)
 	echo -e "\n<item>\n<title>$title</title>\n<guid>$website$blogfile#$url</guid>\n<pubDate>$rssdate</pubDate>\n<description><![CDATA[\n$(awk 'a==1;/^$/{a=1}' "$draftdir"/"$chosen")\n]]></description>\n</item>\n"> $tmpdir/rss.xml
-	echo -e "\n<div class=\"entry\">\n$(cat "$draftdir"/"$chosen")\n<small>$webdate</small>\n</div>\n" > $tmpdir/html.html
+	echo -e "\n<div class=\"entry\">\n$(cat "$draftdir"/"$chosen")\n<br>\n<small>$webdate</small>\n</div>\n" > $tmpdir/html.html
 	sed -i "/<!-- LB -->/r $tmpdir/html.html" $blogfile
 	sed -i "/<!-- LB -->/r $tmpdir/rss.xml" $rssfile
 	sed -i "/<!-- LB -->/a $listformat" $indexfile
