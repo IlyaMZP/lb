@@ -6,7 +6,6 @@ blogfile="2018.html"
 website="https://lukesmith.xyz/"
 indexfile="blogindex.html"
 stylesheet="..\/style.css" # Characters should be escaped for this variable.
-author="<a href=\"$website\">Luke Smith<\/a>"
 dir=$(pwd)
 draftdir="$dir"/blog/.drafts
 blogdir="$dir"/blog
