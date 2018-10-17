@@ -91,6 +91,6 @@ case "$1" in
 	discard) discard ;;
 	finalize) finalize ;;
 	delete) delete ;;
-	edit) listandReturn "$draftdir/*.html" edit && vim "$chosen" ;;
+	edit) listandReturn "$draftdir/*.html" edit && $EDITOR "$chosen" ;;
 	*) getHelp ;;
 esac
