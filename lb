@@ -37,7 +37,7 @@ getTitle() { \
 	echo "Post will be stored as draft in $draftdir until finalized."
 	read -rp "Give a title for your post: " title
 	url=$(echo "$title" | tr -d '[:punct:]' | tr " " "-" | tr '[:upper:]' '[:lower:]')
-	grep "$url" "$blogfile" &>/dev/null && lbdupnum=1 && while [ grep "$url" "$blogfile" ]; do lbdupnum=$((lbdupnum+1)); done
+	grep "id='$url'" "$blogfile" &>/dev/null && lbdupnum=1 && while [ grep "id='$url'" "$blogfile" ]; do lbdupnum=$((lbdupnum+1)); done
 	[ ! -z ${lbdupnum+x} ] && url="$url"-"$lbdupnum"
 	return 0
 	}
@@ -73,7 +73,7 @@ delete() { \
 	read -rp "Really delete \"$base\"? (y/N) " choice
 	[[ $choice =~ [Yy] ]] || exit
 	sed -i "/<item/{:a;N;/<\/item>/!ba};/$base/d" $rssfile && echo "Entry removed from RSS feed file."
-	sed -i "/<div/{:a;N;/<\/div>/!ba};/$base/d" $blogfile && echo "HTML code removed from blogfile."
+	sed -i "/<div/{:a;N;/<\/div>/!ba};/id='$base'/d" $blogfile && echo "HTML code removed from blogfile."
 	sed -i "/<li>.*<a href=\"blog\/$base.html\">/d" $indexfile && echo "Index file entry removed."
 	rm "$chosen" && echo "Blog post deleted from directories."
 	}
